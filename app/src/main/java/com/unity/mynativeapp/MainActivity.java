@@ -48,24 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     void handleIntent(Intent intent) {
         if (intent == null || intent.getExtras() == null) return;
-
-        if (intent.getExtras().containsKey("setColor")) {
-            View v = findViewById(R.id.finish_button);
-            switch (intent.getExtras().getString("setColor")) {
-                case "yellow":
-                    v.setBackgroundColor(Color.YELLOW);
-                    break;
-                case "red":
-                    v.setBackgroundColor(Color.RED);
-                    break;
-                case "blue":
-                    v.setBackgroundColor(Color.BLUE);
-                    break;
-                default:
-                    v.setBackgroundColor(0xFFd6d7d7);
-                    break;
-            }
-        }
     }
 
     public void onClickShowUnity(View v) {
@@ -77,10 +59,6 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()) {
             case R.id.show_unity_button:
                 intent = new Intent(this, getMainUnityActivityClass());
-                break;
-
-            case R.id.show_unity_game_button:
-                intent = new Intent(this, getMainUnityGameActivityClass());
                 break;
 
             default:
@@ -178,19 +156,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void adjustButtons() {
         mShowUnityButton = findViewById(R.id.show_unity_button);
-        mShowUnityGameButton = findViewById(R.id.show_unity_game_button);
 
         if (existUnityPlayerActivity()) {
             mShowUnityButton.setVisibility(View.VISIBLE);
             mActivityType = ActivityType.PLAYER_ACTIVITY;
         }
 
-        if (existUnityPlayerGameActivity()) {
-            mShowUnityGameButton.setVisibility(View.VISIBLE);
-            mActivityType = ActivityType.PLAYER_GAME_ACTIVITY;
-        }
-
-        if (mShowUnityButton.getVisibility() == View.VISIBLE && mShowUnityGameButton.getVisibility() == View.VISIBLE) {
+        if (mShowUnityButton.getVisibility() == View.VISIBLE ) {
             mActivityType = ActivityType.BOTH;
         }
     }
@@ -199,13 +171,11 @@ public class MainActivity extends AppCompatActivity {
         if (mActivityType != ActivityType.BOTH) return;
 
         mShowUnityButton.setEnabled(!isGameActivity);
-        mShowUnityGameButton.setEnabled(isGameActivity);
     }
 
     private void enableShowUnityButtons() {
         if (mActivityType != ActivityType.BOTH) return;
 
         mShowUnityButton.setEnabled(true);
-        mShowUnityGameButton.setEnabled(true);
     }
 }
